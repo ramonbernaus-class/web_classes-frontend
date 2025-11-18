@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { API_URL } from '../main.js'
+import { API_URL } from '../api.js'
 
 const categorias = ref([])
 const loading = ref(true)

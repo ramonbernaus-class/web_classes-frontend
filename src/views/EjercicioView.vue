@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { marked } from 'marked'
-import { API_URL } from '../main.js'
+import { API_URL } from '../api.js'
 
 const route = useRoute()
 const router = useRouter()

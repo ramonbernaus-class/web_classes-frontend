@@ -12,11 +12,11 @@ const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const catRes = await fetch(`/api/categorias/${categoriaId}`)
+    const catRes = await fetch(`${API_URL}/categorias/${categoriaId}`)
     const cat = await catRes.json()
     categoriaNombre.value = cat.nombre
 
-    const ejRes = await fetch('/api/ejercicios')
+    const ejRes = await fetch('${API_URL}/ejercicios')
     const ejercicios = await ejRes.json()
     const subs = [...new Set(
       ejercicios
@@ -34,7 +34,7 @@ onMounted(async () => {
 
 
 const irASubcategoria = (sub) => {
-  router.push(`/categoria/${categoriaId}/subcategoria/${sub}`)
+  router.push(`${API_URL}/categoria/${categoriaId}/subcategoria/${sub}`)
 }
 </script>
 

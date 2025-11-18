@@ -13,7 +13,7 @@ const enviarEntrega = async () => {
   cargando.value = true
   mensaje.value = ''
   try {
-    const res = await fetch('/api/entregas', {
+    const res = await fetch('${API_URL}/entregas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

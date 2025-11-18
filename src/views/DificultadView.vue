@@ -18,12 +18,12 @@ onMounted(async () => {
   }
 
   try {
-    const catRes = await fetch(`/api/categorias/${categoriaId}`)
+    const catRes = await fetch(`${API_URL}/categorias/${categoriaId}`)
     if (!catRes.ok) throw new Error('Categoría no encontrada')
     const cat = await catRes.json()
     categoriaNombre.value = cat.nombre
 
-    const ejRes = await fetch('/api/ejercicios')
+    const ejRes = await fetch('${API_URL}/ejercicios')
     const ejercicios = await ejRes.json()
 
     const ejDeCategoria = ejercicios.filter(ej => {
@@ -49,7 +49,7 @@ onMounted(async () => {
 
 const irADificultad = (nivel) => {
   const sub = subcategoria || 'null'
-  router.push(`/categoria/${categoriaId}/subcategoria/${sub}/dificultad/${nivel}`)
+  router.push(`${API_URL}/categoria/${categoriaId}/subcategoria/${sub}/dificultad/${nivel}`)
 }
 </script>
 

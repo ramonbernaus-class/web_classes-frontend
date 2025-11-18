@@ -11,7 +11,7 @@ const cargando = ref(false)
 const handleSubmit = async () => {
   cargando.value = true
   try {
-    const res = await fetch('/api/login', {
+    const res = await fetch('${API_URL}/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nombre: nombre.value, password: password.value })

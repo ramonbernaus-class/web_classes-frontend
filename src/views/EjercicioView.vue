@@ -15,7 +15,7 @@ const mostrarSolucion = ref(false)
 
 const cargarEjercicios = async () => {
   try {
-    const res = await fetch('/api/ejercicios')
+    const res = await fetch('${API_URL}/ejercicios')
     if (!res.ok) throw new Error('Error al cargar ejercicios')
     const todos = await res.json()
 

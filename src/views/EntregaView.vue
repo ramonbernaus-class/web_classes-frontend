@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { API_URL } from '../main.js'
 
 const codigo = ref('')
 const mensaje = ref('')

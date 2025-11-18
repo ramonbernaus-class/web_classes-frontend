@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { API_URL } from '../main.js'
 
 const nombre = ref('')
 const password = ref('')

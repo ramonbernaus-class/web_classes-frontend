@@ -7,7 +7,7 @@ const router = useRouter()
 const categoriaId = Number(route.params.categoriaId)
 
 onMounted(async () => {
-  const res = await fetch('${API_URL}/ejercicios')
+  const res = await fetch(`${API_URL}/ejercicios`)
   const ejercicios = await res.json()
 
   const tieneSub = ejercicios.some(

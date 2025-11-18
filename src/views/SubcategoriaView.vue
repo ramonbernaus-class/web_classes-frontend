@@ -16,7 +16,7 @@ onMounted(async () => {
     const cat = await catRes.json()
     categoriaNombre.value = cat.nombre
 
-    const ejRes = await fetch('${API_URL}/ejercicios')
+    const ejRes = await fetch(`${API_URL}/ejercicios`)
     const ejercicios = await ejRes.json()
     const subs = [...new Set(
       ejercicios

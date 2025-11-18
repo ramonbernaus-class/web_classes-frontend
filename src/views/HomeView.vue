@@ -17,7 +17,7 @@ const cargarUsuario = () => {
 // 🔹 Cargar categorías desde el backend
 const cargarCategorias = async () => {
   try {
-    const res = await fetch('${API_URL}/categorias', {
+    const res = await fetch(`${API_URL}/categorias`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'

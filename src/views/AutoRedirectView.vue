@@ -16,9 +16,9 @@ onMounted(async () => {
   )
 
   if (tieneSub) {
-    router.replace(`${API_URL}/categoria/${categoriaId}/subcategorias`)
+    router.replace(`/categoria/${categoriaId}/subcategorias`)
   } else {
-    router.replace(`${API_URL}/categoria/${categoriaId}/subcategoria/null`)
+    router.replace(`/categoria/${categoriaId}/subcategoria/null`)
   }
 })
 </script>

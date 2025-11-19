@@ -16,7 +16,13 @@ const mostrarSolucion = ref(false)
 
 const cargarEjercicios = async () => {
   try {
-    const res = await fetch(`${API_URL}/ejercicios`)
+    const token = localStorage.getItem("token")
+
+    const res = await fetch(`${API_URL}/ejercicios`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
     if (!res.ok) throw new Error('Error al cargar ejercicios')
     const todos = await res.json()
 

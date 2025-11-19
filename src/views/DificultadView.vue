@@ -15,18 +15,28 @@ const loading = ref(true)
 onMounted(async () => {
   if (!categoriaId || isNaN(categoriaId)) {
     router.push('/')
-    return 
+    return
   }
 
+  const token = localStorage.getItem("token")
+
   try {
-    const catRes = await fetch(`${API_URL}/categorias/${categoriaId}`)
+    // --- CARGAR CATEGORÍA ---
+    const catRes = await fetch(`${API_URL}/categorias/${categoriaId}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    })
     if (!catRes.ok) throw new Error('Categoría no encontrada')
     const cat = await catRes.json()
     categoriaNombre.value = cat.nombre
 
-    const ejRes = await fetch(`${API_URL}/ejercicios`)
+    // --- CARGAR EJERCICIOS ---
+    const ejRes = await fetch(`${API_URL}/ejercicios`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    })
+    if (!ejRes.ok) throw new Error("No autorizado")
     const ejercicios = await ejRes.json()
 
+    // --- FILTRAR SEGÚN CATEGORÍA Y SUBCATEGORÍA ---
     const ejDeCategoria = ejercicios.filter(ej => {
       if (subcategoria && subcategoria !== 'null') {
         return ej.categoria_id === categoriaId && ej.subcategoria === subcategoria
@@ -35,11 +45,16 @@ onMounted(async () => {
       }
     })
 
-    const difs = [...new Set(ejDeCategoria.map(ej => ej.dificultad).filter(Boolean))]
+    // --- EXTRAER DIFICULTADES UNICAS ---
+    const difs = [...new Set(
+      ejDeCategoria.map(ej => ej.dificultad).filter(Boolean)
+    )]
+
     dificultades.value = difs.sort((a, b) => {
       const orden = { 'fácil': 1, 'media': 2, 'difícil': 3 }
       return (orden[a] || 99) - (orden[b] || 99)
     })
+
   } catch (err) {
     console.error('Error:', err)
     router.push('/')
@@ -47,6 +62,7 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
 
 const irADificultad = (nivel) => {
   const sub = subcategoria || 'null'

@@ -18,9 +18,12 @@ const cargarUsuario = () => {
 // 🔹 Cargar categorías desde el backend
 const cargarCategorias = async () => {
   try {
+    const token = localStorage.getItem("token")
+    if (!token) throw new Error("No token")  // seguridad extra
+
     const res = await fetch(`${API_URL}/categorias`, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     })

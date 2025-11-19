@@ -12,26 +12,58 @@ const subcategorias = ref([])
 const loading = ref(true)
 
 onMounted(async () => {
+  const token = localStorage.getItem("token")
+
   try {
-    const catRes = await fetch(`${API_URL}/categorias/${categoriaId}`)
+    // --- CARGAR CATEGORÍA ---
+    const catRes = await fetch(`${API_URL}/categorias/${categoriaId}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    })
+
+    if (!catRes.ok) {
+      console.error("Categoría no encontrada o token inválido")
+      router.push("/login")
+      return
+    }
+
     const cat = await catRes.json()
     categoriaNombre.value = cat.nombre
 
-    const ejRes = await fetch(`${API_URL}/ejercicios`)
+    // --- CARGAR EJERCICIOS ---
+    const ejRes = await fetch(`${API_URL}/ejercicios`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    })
+
+    if (!ejRes.ok) {
+      console.error("Error cargando ejercicios (401 o fallo servidor)")
+      router.push("/login")
+      return
+    }
+
     const ejercicios = await ejRes.json()
+
+    // Validar que sea array
+    if (!Array.isArray(ejercicios)) {
+      throw new Error("Respuesta inválida del backend")
+    }
+
+    // --- OBTENER SUBCATEGORÍAS ---
     const subs = [...new Set(
       ejercicios
         .filter(ej => ej.categoria_id === categoriaId && ej.subcategoria)
         .map(ej => ej.subcategoria)
     )]
+
     subcategorias.value = subs
+
   } catch (err) {
-    console.error(err)
-    router.push('/')
+    console.error("Error SubcategoriaView:", err)
+    router.push("/")
   } finally {
     loading.value = false
   }
 })
+
 
 
 const irASubcategoria = (sub) => {

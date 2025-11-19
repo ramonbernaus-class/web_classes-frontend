@@ -49,7 +49,7 @@ const registrarse = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email: `${nombre.value}@clase.com`,   // email ficticio válido
+        email: `${nombre.value}@clase.com`,   
         nombre: nombre.value,
         password: password.value
       })
@@ -63,7 +63,6 @@ const registrarse = async () => {
       return
     }
 
-    // Registro correcto → iniciar sesión automático
     await handleSubmit()
 
   } catch (err) {
@@ -113,6 +112,9 @@ button {
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
+}
+.btn-register {
+  margin-top: 15px; /* separa el botón de registrar */
 }
 .error {
   color: #d32f2f;

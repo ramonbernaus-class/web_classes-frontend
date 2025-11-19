@@ -50,8 +50,9 @@ onMounted(async () => {
 
 const irADificultad = (nivel) => {
   const sub = subcategoria || 'null'
-  router.push(`${API_URL}/categoria/${categoriaId}/subcategoria/${sub}/dificultad/${nivel}`)
+  router.push(`/categoria/${categoriaId}/subcategoria/${encodeURIComponent(sub)}/dificultad/${encodeURIComponent(nivel)}`)
 }
+
 </script>
 
 <template>

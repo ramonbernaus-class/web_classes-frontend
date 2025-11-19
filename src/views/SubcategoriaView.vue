@@ -35,7 +35,7 @@ onMounted(async () => {
 
 
 const irASubcategoria = (sub) => {
-  router.push(`${API_URL}/categoria/${categoriaId}/subcategoria/${sub}`)
+  router.push(`/categoria/${categoriaId}/subcategoria/${encodeURIComponent(sub)}`)
 }
 </script>
 

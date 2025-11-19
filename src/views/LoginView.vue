@@ -9,6 +9,7 @@ const error = ref('')
 const router = useRouter()
 const cargando = ref(false)
 
+// LOGIN  
 const handleSubmit = async () => {
   cargando.value = true
   try {
@@ -32,6 +33,45 @@ const handleSubmit = async () => {
     cargando.value = false
   }
 }
+
+// REGISTER
+const registrarse = async () => {
+  error.value = ''
+  
+  if (!nombre.value || !password.value) {
+    error.value = 'Introduce usuario y contraseña'
+    return
+  }
+
+  cargando.value = true
+  try {
+    const res = await fetch(`${API_URL}/usuarios`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: `${nombre.value}@clase.com`,   // email ficticio válido
+        nombre: nombre.value,
+        password: password.value
+      })
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      error.value = data.detail || "No se pudo crear el usuario"
+      cargando.value = false
+      return
+    }
+
+    // Registro correcto → iniciar sesión automático
+    await handleSubmit()
+
+  } catch (err) {
+    error.value = 'Error al registrar usuario'
+  } finally {
+    cargando.value = false
+  }
+}
 </script>
 
 <template>
@@ -40,9 +80,10 @@ const handleSubmit = async () => {
     <form @submit.prevent="handleSubmit">
       <input v-model="nombre" type="nombre" placeholder="Nom" required />
       <input v-model="password" type="password" placeholder="Contraseña" required />
-      <button type="submit">Entrar</button>
+      <button type="submit">Inicia Sessio</button>
       <p v-if="error" class="error">{{ error }}</p>
     </form>
+    <button @click="registrarse" class="btn-register">Registrarse</button>
   </div>
 </template>
 

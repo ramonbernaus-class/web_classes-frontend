@@ -7,6 +7,16 @@ import EjercicioView from '../views/EjercicioView.vue'
 import LoginView from '../views/LoginView.vue'
 import EntregaView from '../views/EntregaView.vue'
 
+// --- Función para comprobar si el token ha expirado ---
+function isTokenExpired(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.exp * 1000 < Date.now()
+  } catch (e) {
+    return true // si falla por lo que sea, tratamos el token como inválido
+  }
+}
+
 const routes = [
   { path: '/', component: HomeView },
   { path: '/entrega', component: EntregaView },
@@ -22,19 +32,28 @@ const router = createRouter({
   routes
 })
 
-// 🔒 Middleware global to protect links 
+// --- Middleware global de protección ---
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  const isLogin = to.path === '/login'
 
-  if (!token && to.path !== '/login') {
-    next('/login')
-  } 
-  else if (token && to.path === '/login') {
-    next('/')
-  } 
-  else {
-    next()
+
+  if (!token) {
+    if (!isLogin) return next('/login')
+    return next()
   }
+
+
+  if (isTokenExpired(token)) {
+    localStorage.removeItem('token')
+    return next('/login')
+  }
+
+
+  if (isLogin) return next('/')
+
+  // 4. Todo bien → continuar
+  next()
 })
 
 export default router

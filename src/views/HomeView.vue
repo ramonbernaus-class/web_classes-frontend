@@ -78,6 +78,13 @@ onMounted(() => {
       <button>Enviar exercici</button>
     </RouterLink>
 
+    <!-- ⭐⭐ BOTÓN ADMIN ⭐⭐ -->
+    <div v-if="usuario && usuario.rol === 'admin'" class="admin-section">
+      <RouterLink to="/admin">
+        <button class="admin-btn">Administració</button>
+      </RouterLink>
+    </div>
+
     <p>Tria una opció:</p>
 
     <div v-if="loading">Cargando categorías...</div>
@@ -95,6 +102,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .home {
@@ -186,6 +194,21 @@ onMounted(() => {
   padding: 24px;
   color: #5a4a7a;
   font-size: 1.1rem;
+}
+
+.admin-btn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #0A2283;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-btn:hover {
+  background: #142fa1;
 }
 
 @media (max-width: 600px) {

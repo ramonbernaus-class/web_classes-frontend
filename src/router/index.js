@@ -7,6 +7,7 @@ import EjercicioView from '../views/EjercicioView.vue'
 import LoginView from '../views/LoginView.vue'
 import EntregaView from '../views/EntregaView.vue'
 import AdminUsuarios from "../views/AdminUsuarios.vue"
+import AdminDashboard from "../views/AdminDashboard.vue"
 
 // --- Función para comprobar si el token ha expirado ---
 function isTokenExpired(token) {
@@ -26,7 +27,8 @@ const routes = [
   { path: '/categoria/:categoriaId/subcategorias', component: SubcategoriaView },
   { path: '/categoria/:categoriaId/subcategoria/:subcategoria', component: DificultadView },
   { path: '/categoria/:categoriaId/subcategoria/:subcategoria/dificultad/:nivel', component: EjercicioView },
-  { path: "/admin/usuarios", component: AdminUsuarios }
+  { path: "/admin/usuarios", component: AdminUsuarios },
+  { path: "/admin", component: AdminDashboard }
 ]
 
 const router = createRouter({

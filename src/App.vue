@@ -8,10 +8,11 @@ const serverError = ref(false)
 // Comprueba si el backend está despierto
 const checkBackend = async () => {
   try {
-    // Un endpoint rápido para comprobar que arrancó
     const res = await fetch(`${API_URL}/categorias`, {
-      method: "HEAD"
-    })
+    method: "GET",
+    headers: { "Authorization": `Bearer ${localStorage.getItem('token') || ''}` }
+  })
+
 
     serverReady.value = res.ok
   } catch (err) {

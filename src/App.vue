@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue"
-import { API_URL } from "../api.js"
+import { API_URL } from "./api.js"
 
 const serverReady = ref(false)
 const serverError = ref(false)

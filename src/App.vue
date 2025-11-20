@@ -8,12 +8,7 @@ const serverError = ref(false)
 // Comprueba si el backend está despierto
 const checkBackend = async () => {
   try {
-    const res = await fetch(`${API_URL}/categorias`, {
-    method: "GET",
-    headers: { "Authorization": `Bearer ${localStorage.getItem('token') || ''}` }
-  })
-
-
+    const res = await fetch(`${API_URL}/ping`)
     serverReady.value = res.ok
   } catch (err) {
     serverReady.value = false

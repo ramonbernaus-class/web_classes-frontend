@@ -1,32 +1,70 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { API_URL } from '../api.js'
+
+const route = useRoute()
+const router = useRouter()
+
+// 🔹 Recoger el ejercicio_id de la URL
+const ejercicioId = Number(route.query.ejercicio_id || route.params.ejercicioId)
 
 const codigo = ref('')
 const mensaje = ref('')
 const cargando = ref(false)
+const usuario = ref(null)
 
-// El usuario logueado y ejercicio pueden venir del localStorage o de props
-const usuario = JSON.parse(localStorage.getItem('usuario'))
-const ejercicioId = 1 // <-- más adelante lo harás dinámico
+// 🔹 Cargar usuario desde localStorage
+onMounted(() => {
+  const data = localStorage.getItem('usuario')
+  if (!data) {
+    router.push('/login') // no está logueado
+    return
+  }
+  usuario.value = JSON.parse(data)
+})
 
+// 🔹 Enviar entrega
 const enviarEntrega = async () => {
+  if (!codigo.value.trim()) {
+    mensaje.value = 'Debes escribir algún código.'
+    return
+  }
+
+  if (!usuario.value) {
+    mensaje.value = 'Debes iniciar sesión para enviar entregas.'
+    return
+  }
+
   cargando.value = true
   mensaje.value = ''
+
   try {
+    const token = localStorage.getItem("token")
+
     const res = await fetch(`${API_URL}/entregas`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
-        usuario_id: usuario.id,
+        usuario_id: usuario.value.id,
         ejercicio_id: ejercicioId,
         codigo: codigo.value
       })
     })
+
     const data = await res.json()
-    mensaje.value = data.mensaje || 'Envío realizado'
-  } catch (e) {
-    mensaje.value = 'Error al enviar'
+
+    if (!res.ok) {
+      mensaje.value = data.detail || 'Error al enviar el ejercicio'
+    } else {
+      mensaje.value = data.mensaje || 'Entrega enviada correctamente'
+      codigo.value = ''
+    }
+  } catch (err) {
+    mensaje.value = 'Error de conexión con el servidor'
   } finally {
     cargando.value = false
   }
@@ -36,25 +74,83 @@ const enviarEntrega = async () => {
 <template>
   <div class="entrega-container">
     <h2>Enviar ejercicio</h2>
-    <textarea v-model="codigo" rows="10" cols="60" placeholder="Pega tu código aquí..."></textarea>
+
+    <p v-if="!ejercicioId" class="warning">
+      No se ha especificado ningún ejercicio.
+    </p>
+
+    <textarea
+      v-model="codigo"
+      rows="12"
+      placeholder="Escribe o pega tu código aquí..."
+    />
+
     <br />
-    <button @click="enviarEntrega" :disabled="cargando">Enviar</button>
-    <p>{{ mensaje }}</p>
+
+    <button @click="enviarEntrega" :disabled="cargando">
+      {{ cargando ? "Enviando..." : "Enviar" }}
+    </button>
+
+    <p class="mensaje">{{ mensaje }}</p>
+
     <RouterLink to="/">
-    <button class="volver-btn">⬅ Tornar al menú</button>
+      <button class="volver-btn">⬅ Tornar al menú</button>
     </RouterLink>
   </div>
 </template>
 
 <style scoped>
 .entrega-container {
-  max-width: 600px;
+  max-width: 700px;
   margin: 2rem auto;
   text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }
+
 textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-family: monospace;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  transition: 0.2s;
+}
+
+textarea:focus {
+  border-color: #8A48E0;
+  outline: none;
+}
+
+button {
+  background: #8A48E0;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.volver-btn {
+  background: #444;
+  margin-top: 10px;
+}
+
+.mensaje {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.warning {
+  color: #e74c3c;
+  font-weight: bold;
 }
 </style>
+

@@ -54,6 +54,12 @@ const toggleSolucion = () => {
   mostrarSolucion.value = !mostrarSolucion.value
 }
 
+const enviarEntrega = () => {
+  const id = ejercicioActual.value?.id
+  if (!id) return
+  router.push(`/entrega?ejercicio_id=${id}`)
+}
+
 const irAIndice = (index) => {
   if (index >= 0 && index < ejercicios.value.length) {
     currentIndex.value = index
@@ -64,6 +70,8 @@ const irAIndice = (index) => {
 const volver = () => {
   router.push('/')
 }
+
+
 
 onMounted(cargarEjercicios)
 </script>
@@ -90,6 +98,8 @@ onMounted(cargarEjercicios)
 
       <div v-if="mostrarSolucion" class="solucion" v-html="ejercicioActual.solucionHtml"></div>
 
+      <button @click="enviarEntrega" class="btn-entrega">Enviar entrega</button>
+      
       <div class="navegacion">
         <button 
           @click="irAIndice(currentIndex - 1)" 
@@ -258,7 +268,6 @@ h2 {
   padding: 32px 0;
 }
 
-/* Skeleton loader (opcional) */
 .skeleton-loader {
   height: 200px;
   background: linear-gradient(90deg, #f0eaff 25%, #e0d7f5 50%, #f0eaff 75%);
@@ -266,6 +275,25 @@ h2 {
   border-radius: 12px;
   animation: shimmer 1.5s infinite;
 }
+
+.btn-entrega {
+  margin-top: 20px;
+  background: #8A48E0;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-entrega:hover {
+  background: #7039b5;
+}
+
 
 @keyframes shimmer {
   0% { background-position: 200% 0; }

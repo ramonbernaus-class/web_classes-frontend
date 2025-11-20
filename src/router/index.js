@@ -15,7 +15,7 @@ function isTokenExpired(token) {
     const payload = JSON.parse(atob(token.split('.')[1]))
     return payload.exp * 1000 < Date.now()
   } catch (e) {
-    return true // si falla por lo que sea, tratamos el token como inválido
+    return true 
   }
 }
 

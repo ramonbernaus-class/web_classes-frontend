@@ -6,6 +6,7 @@ import AutoRedirectView from '../views/AutoRedirectView.vue'
 import EjercicioView from '../views/EjercicioView.vue'
 import LoginView from '../views/LoginView.vue'
 import EntregaView from '../views/EntregaView.vue'
+import AdminUsuarios from "../views/AdminUsuarios.vue"
 
 // --- Función para comprobar si el token ha expirado ---
 function isTokenExpired(token) {
@@ -24,7 +25,8 @@ const routes = [
   { path: '/categoria/:categoriaId', component: AutoRedirectView },
   { path: '/categoria/:categoriaId/subcategorias', component: SubcategoriaView },
   { path: '/categoria/:categoriaId/subcategoria/:subcategoria', component: DificultadView },
-  { path: '/categoria/:categoriaId/subcategoria/:subcategoria/dificultad/:nivel', component: EjercicioView }
+  { path: '/categoria/:categoriaId/subcategoria/:subcategoria/dificultad/:nivel', component: EjercicioView },
+  { path: "/admin/usuarios", component: AdminUsuarios }
 ]
 
 const router = createRouter({
@@ -56,4 +58,4 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-export default router
+export default router   

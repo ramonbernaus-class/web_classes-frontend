@@ -74,11 +74,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <RouterLink to="/entrega">
-      <button>Enviar exercici</button>
-    </RouterLink>
-
-    <!-- ⭐⭐ BOTÓN ADMIN ⭐⭐ -->
     <div v-if="usuario && usuario.rol === 'admin'" class="admin-section">
       <RouterLink to="/admin">
         <button class="admin-btn">Administració</button>

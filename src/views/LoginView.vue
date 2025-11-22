@@ -84,6 +84,10 @@ const registrarse = async () => {
     </form>
     <button @click="registrarse" class="btn-register">Registrarse</button>
   </div>
+  <div class="text-blue-500 text-4xl font-bold">
+  Test Tailwind
+</div>
+
 </template>
 
 <style scoped>

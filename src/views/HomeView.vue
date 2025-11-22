@@ -74,7 +74,7 @@ const activarKeepAlive = () => {
       keepAliveInterval = null
       console.log("Mantenimiento terminado (1h)")
     }
-  }, 40000)
+  }, 120000)
 
   alert("El servidor se mantendrá activo durante 1 hora.")
 }

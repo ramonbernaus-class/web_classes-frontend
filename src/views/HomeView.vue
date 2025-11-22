@@ -94,24 +94,18 @@ onMounted(() => {
         👋 Benvingut, <strong>{{ usuario.nombre }}</strong>
         <button class="logout-btn" @click="logout">Tancar sessió</button>
       </div>
-
-      <div v-if="usuario && usuario.rol === 'admin'" class="keep-alive-section">
-        <button class="keep-alive-btn" @click="activarKeepAlive">
-          Mantener servidor activo 1 hora
-        </button>
-      </div>
-
-      <div v-else class="login-btn-container">
-        <button class="login-btn" @click="router.push('/login')">
-          Iniciar sessió
-        </button>
-      </div>
     </div>
 
     <div v-if="usuario && usuario.rol === 'admin'" class="admin-section">
       <RouterLink to="/admin">
         <button class="admin-btn">Administració</button>
       </RouterLink>
+    </div>
+
+    <div v-if="usuario && usuario.rol === 'admin'" class="keep-alive-section">
+        <button class="keep-alive-btn" @click="activarKeepAlive">
+          Mantener servidor activo 1 hora
+        </button>
     </div>
 
     <p>Tria una opció:</p>
@@ -238,6 +232,17 @@ onMounted(() => {
 
 .admin-btn:hover {
   background: #142fa1;
+}
+
+.keep-alive-btn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background: #0A2283;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 @media (max-width: 600px) {

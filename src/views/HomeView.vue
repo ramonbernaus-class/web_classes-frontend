@@ -51,6 +51,34 @@ const logout = () => {
   router.push('/login')
 }
 
+let keepAliveInterval = null
+
+const activarKeepAlive = () => {
+  if (keepAliveInterval) {
+    clearInterval(keepAliveInterval)
+  }
+
+  const inicio = Date.now()
+
+  keepAliveInterval = setInterval(async () => {
+    try {
+      await fetch(`${API_URL}/ping`)
+      console.log("Ping enviado para mantener Render despierto")
+    } catch (err) {
+      console.error("Error enviando ping:", err)
+    }
+
+    // detener tras 1 hora
+    if (Date.now() - inicio > 60 * 60 * 1000) {
+      clearInterval(keepAliveInterval)
+      keepAliveInterval = null
+      console.log("Mantenimiento terminado (1h)")
+    }
+  }, 40000)
+
+  alert("El servidor se mantendrá activo durante 1 hora.")
+}
+
 onMounted(() => {
   cargarUsuario()
   cargarCategorias()
@@ -65,6 +93,12 @@ onMounted(() => {
       <div v-if="usuario" class="usuario-info">
         👋 Benvingut, <strong>{{ usuario.nombre }}</strong>
         <button class="logout-btn" @click="logout">Tancar sessió</button>
+      </div>
+
+      <div v-if="usuario && usuario.rol === 'admin'" class="keep-alive-section">
+        <button class="keep-alive-btn" @click="activarKeepAlive">
+          Mantener servidor activo 1 hora
+        </button>
       </div>
 
       <div v-else class="login-btn-container">

@@ -96,7 +96,7 @@ export default {
 
     async cargarEstadisticas() {
       try {
-        const res = await fetch(`${this.API}/api/admin/estadisticas`, {
+        const res = await fetch(`${this.API}/admin/estadisticas`, {
           headers: { Authorization: "Bearer " + this.getToken() }
         })
 

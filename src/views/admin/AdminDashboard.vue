@@ -95,20 +95,22 @@ export default {
     },
 
     async cargarEstadisticas() {
-      try {
-        const res = await fetch(`${this.API}/admin/estadisticas`, {
-          headers: { Authorization: "Bearer " + this.getToken() }
-        })
+    try {
+      const res = await fetch(`${this.API}/api/admin/estadisticas`, {
+        headers: {
+          Authorization: "Bearer " + this.getToken()
+        }
+      })
 
-        if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error()
 
-        this.stats = await res.json()
-      } catch (err) {
-        alert("No autorizado o error cargando estadísticas")
-      } finally {
-        this.loading = false
-      }
-    },
+      this.stats = await res.json()
+    } catch (err) {
+      alert("No autorizado o error cargando estadísticas")
+    } finally {
+      this.loading = false
+    }
+  },
 
     formatearFecha(fecha) {
       return new Date(fecha).toLocaleString()

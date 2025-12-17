@@ -58,7 +58,7 @@ function formatDate(d){ try { return new Date(d).toLocaleString() } catch { retu
 
 async function cargar(){
   try{
-    const res = await fetch(`${API_URL}/api/admin/estadisticas`, { headers: { Authorization: `Bearer ${getToken()}` } })
+    const res = await fetch(`${API_URL}/admin/estadisticas`, { headers: { Authorization: `Bearer ${getToken()}` } })
     if (!res.ok) throw new Error('no auth')
     stats.value = await res.json()
     renderChart()

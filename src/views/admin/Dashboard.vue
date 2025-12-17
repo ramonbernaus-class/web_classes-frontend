@@ -166,7 +166,7 @@ function getToken() {
 async function fetchStats() {
   loading.value = true
   try {
-    const res = await fetch(`${API_URL}/api/admin/estadisticas`, {
+    const res = await fetch(`${API_URL}/admin/estadisticas`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
     if (!res.ok) throw new Error('No autorizado')

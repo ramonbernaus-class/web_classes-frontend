@@ -14,14 +14,22 @@ const mensaje = ref('')
 const cargando = ref(false)
 const usuario = ref(null)
 
-// 🔹 Cargar usuario desde localStorage
-onMounted(() => {
+
+onMounted(async () => {
   const data = localStorage.getItem('usuario')
+
   if (!data) {
-    router.push('/login') // no está logueado
+    router.push('/login')
     return
   }
+
   usuario.value = JSON.parse(data)
+
+  try {
+    categorias.value = await apiGET("/api/categorias")
+  } catch (e) {
+    console.error("Error cargando categorías:", e)
+  }
 })
 
 // 🔹 Enviar entrega
